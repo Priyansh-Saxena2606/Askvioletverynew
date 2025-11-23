@@ -53,7 +53,7 @@ The application follows a modular **Service-Oriented Architecture**:
 4.  **Retrieval Layer:** When a user asks a question, the system performs a semantic search to find the top 4 most relevant text chunks.
 5.  **Generation Layer:** The chunks + user question are sent to the selected LLM to generate a grounded response.
 
----
+----------
 
 ## ⚙️ Installation & Setup
 
