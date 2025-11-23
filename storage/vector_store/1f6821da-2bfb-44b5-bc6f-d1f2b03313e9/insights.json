@@ -1,0 +1,23 @@
+{
+  "summary": "The \"CodeVita 2025 Master Revision Pack\" is a comprehensive guide designed to prepare participants for the CodeVita competition. It includes detailed notes on algorithms and data structures, complexity analysis, and optimization strategies. The pack features 7 sample problems with full Java solutions, 8 practice problems with complete solutions, and a quick reference appendix. Key topics covered include geometry on polyhedra, arc distance on curved surfaces, and minimum-cost swaps using cycle decomposition. Each concept is explained with implementation details and time complexity considerations.",
+  "key_concepts": [
+    "Comprehensive revision for CodeVita 2025",
+    "Sample and practice problems with Java solutions",
+    "In-depth coverage of algorithms and data structures",
+    "Complexity analysis and optimization strategies",
+    "Geometry on polyhedra and arc distance on curved surfaces",
+    "Minimum-cost swaps using cycle decomposition",
+    "Techniques for competitive programming preparation"
+  ],
+  "suggested_questions": [
+    "What are the best strategies for identifying valid nets when solving 3D surface distance problems in CodeVita 2025?",
+    "How can I effectively implement the cube unfolding strategy in Java to calculate the shortest path between two points on different faces?",
+    "What specific edge cases should I consider when handling coordinate transformations in 3D to 2D mappings for competitive programming?",
+    "Can you provide examples of when to use arc distance versus straight-line distance in problems involving curved surfaces?",
+    "What are the key steps to efficiently identify cycles in permutations for minimizing swap costs, and how can I implement these in Java?"
+  ],
+  "document_stats": {
+    "total_documents": 1,
+    "total_pages": 10
+  }
+}

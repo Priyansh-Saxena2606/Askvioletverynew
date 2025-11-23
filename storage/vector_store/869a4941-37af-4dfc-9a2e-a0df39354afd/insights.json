@@ -1,0 +1,23 @@
+{
+  "summary": "Nikhil Porwal is a BTech student specializing in Artificial Intelligence and Data Science at Lakshmi Narain College of Technology, with a CGPA of 7.82. He possesses skills in frontend (HTML, CSS, JavaScript, React), backend (Node.js, Express.js), and databases (MySQL, MongoDB). His programming expertise includes Python (intermediate) and basic Java and C++. Nikhil has developed projects like \"Squeezly,\" a full-stack URL shortener, and is currently working on \"AskVoilet,\" an intelligent document analysis tool. He is proficient in Git and has a strong foundation in data structures and algorithms.",
+  "key_concepts": [
+    "Frontend Development**: Proficient in HTML, CSS, JavaScript, and React.",
+    "Backend Development**: Experience with Node.js and Express.js.",
+    "Database Management**: Knowledge of MySQL and basic understanding of MongoDB.",
+    "Programming Languages**: Familiarity with Java, C++, and intermediate skills in Python (Pandas, Numpy, Matplotlib, Scikit-learn).",
+    "Version Control**: Proficient in using Git and GitHub for version control.",
+    "Education**: Pursuing a BTech in Artificial Intelligence and Data Science with a notable CGPA.",
+    "Academic Projects**: Developed full-stack web applications, including a URL shortener and an intelligent document analysis tool."
+  ],
+  "suggested_questions": [
+    "How did you implement secure user authentication in your Squeezly web application, and what challenges did you face during this process?",
+    "Can you elaborate on the features and functionalities you plan to include in the ongoing AskVoilet project, particularly the 'TableTalk' feature?",
+    "What specific tools and methodologies do you use for version control in your projects, and how do you manage collaboration with others on GitHub?",
+    "How has your education in Artificial Intelligence and Data Science influenced your approach to developing web applications like Squeezly and AskVoilet?",
+    "What strategies do you employ to enhance your skills in programming languages like Java and C++, given your current focus on Python and web development?"
+  ],
+  "document_stats": {
+    "total_documents": 1,
+    "total_pages": 1
+  }
+}
