@@ -66,3 +66,52 @@ The application follows a modular **Service-Oriented Architecture**:
 ```bash
 git clone [https://github.com/Nikhil-Porwal/voilet.git](https://github.com/yourusername/voilet.git)
 cd voilet
+
+---
+
+## 🧭 Quick start — Run frontend + backend locally
+
+These steps will get the app running on your machine (developer flow):
+
+### 1) Start the backend (FastAPI)
+
+```powershell
+# From repo root (AskVoilet)
+python -m venv .venv        # optional but recommended
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+# Start Uvicorn / FastAPI on port 8000
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000 --app-dir "${PWD}"
+```
+
+Notes:
+- The backend reads `.env` (there's a sample at `app/.env` and one at the repo root). The server requires `SECRET_KEY` in `.env` — it will raise an error if missing.
+- Add `OPENAI_API_KEY` or `GEMINI_API_KEY` to `.env` if you plan to use LLM features.
+
+### 2) Start the frontend (Vite + React)
+
+```powershell
+cd frontend
+npm install    # only first time
+npm run dev
+```
+
+By default the frontend expects the backend API at:
+ - http://localhost:8000/api
+
+### 3) Open the app in your browser
+
+ - Frontend UI: http://localhost:5173
+ - Backend docs (OpenAPI): http://127.0.0.1:8000/docs
+
+Test credentials (dev):
+- username: devtester
+- password: pass1234
+
+### Troubleshooting
+- ERR_CONNECTION_REFUSED on :8000 → ensure uvicorn is running and listening on 127.0.0.1:8000.
+- Server startup error about SECRET_KEY → create a `.env` at project root with SECRET_KEY and restart.
+- Frontend can't reach backend → verify `API_BASE_URL` in `frontend/src/App.jsx` or switch port accordingly.
+
+If you'd like, I can update the frontend so `API_BASE_URL` is read from an environment variable instead of a hard-coded string.
