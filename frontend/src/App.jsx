@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import AuthForm from "./components/AuthForm";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -8,7 +9,10 @@ import Notification from "./components/Notification";
 
 const API_BASE_URL = "http://localhost:8000/api";
 
-const App = () => {
+// Separate the main app logic into a component that can use useNavigate
+const MainApp = () => {
+  const navigate = useNavigate(); // ✅ This is what was missing!
+  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState("");
@@ -52,6 +56,7 @@ const App = () => {
   }, [isAuthenticated, token]);
 
   const handleAuth = async () => {
+    console.log('handleAuth called', { authMode, username });
     if (!username || !password) {
       showNotification("Please enter username and password", "error");
       return;
@@ -62,7 +67,6 @@ const App = () => {
       let resp;
 
       if (authMode === "login") {
-        // OAuth2PasswordRequestForm expects x-www-form-urlencoded
         const body = new URLSearchParams({ username, password }).toString();
         resp = await fetch(`${API_BASE_URL}${endpoint}`, {
           method: "POST",
@@ -70,14 +74,19 @@ const App = () => {
           body,
         });
       } else {
-        // Register expects JSON body
         resp = await fetch(`${API_BASE_URL}${endpoint}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
         });
       }
-      const data = await resp.json();
+      let data = null;
+      try {
+        data = await resp.json();
+      } catch (e) {
+        console.error('Failed to parse JSON response from auth endpoint', e);
+      }
+      console.log('Auth response', { status: resp.status, ok: resp.ok, data });
       if (resp.ok) {
         if (authMode === "login") {
           setToken(data.access_token);
@@ -85,8 +94,13 @@ const App = () => {
           localStorage.setItem("voilet_username", username);
           setIsAuthenticated(true);
           showNotification("Welcome back!");
-          // open upload modal automatically after first login — makes it easy to try the app
-          setShowUploadModal(true);
+          console.log('Login success, token set, navigating to /dashboard');
+          
+          // ✅ THIS IS THE KEY FIX - Navigate to dashboard after login
+          navigate("/dashboard");
+          
+          // Open upload modal automatically after first login
+          setTimeout(() => setShowUploadModal(true), 500);
         } else {
           showNotification("Account created! Please login.");
           setAuthMode("login");
@@ -113,6 +127,9 @@ const App = () => {
     setSelectedCollection(null);
     setMessages([]);
     showNotification("Logged out successfully");
+    
+    // ✅ Navigate to login after logout
+    navigate("/login");
   };
 
   const fetchCollections = async () => {
@@ -257,22 +274,25 @@ const App = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    return (
-      <AuthForm
-        username={username}
-        password={password}
-        setUsername={setUsername}
-        setPassword={setPassword}
-        authMode={authMode}
-        setAuthMode={setAuthMode}
-        handleAuth={handleAuth}
-        isLoading={isLoading}
-      />
-    );
-  }
+  // Login/Register Page
+  const LoginPage = () => (
+    <AuthForm
+      username={username}
+      password={password}
+      setUsername={setUsername}
+      setPassword={setPassword}
+      authMode={authMode}
+      setAuthMode={setAuthMode}
+      handleAuth={handleAuth}
+      isLoading={isLoading}
+    />
+  );
 
-  return (
+  // Main Dashboard
+  const Dashboard = () => (
+    <>
+      {/* DEBUG: Render marker to confirm Dashboard mounts */}
+      <div className="p-4 text-sm text-gray-500">DEBUG: Dashboard mounted</div>
     <div className="h-screen flex flex-col bg-gray-50">
       <Notification notification={notification} />
       <Header
@@ -311,6 +331,34 @@ const App = () => {
         uploadProgress={uploadProgress}
       />
     </div>
+    </>
+  );
+
+  // ✅ Router setup
+  return (
+    <Routes>
+      <Route 
+        path="/login" 
+        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />} 
+      />
+      <Route 
+        path="/dashboard" 
+        element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} 
+      />
+      <Route 
+        path="/" 
+        element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />} 
+      />
+    </Routes>
+  );
+};
+
+// ✅ Wrap everything in BrowserRouter
+const App = () => {
+  return (
+    <BrowserRouter>
+      <MainApp />
+    </BrowserRouter>
   );
 };
 
